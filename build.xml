@@ -116,6 +116,8 @@
     <java classname="org.apache.jackrabbit.examples.FileSystemUtil">
       <arg value="--repodir"/>
       <arg value="${repository.dir}"/>
+      <arg value="--workspace"/>
+      <arg value="${workspace}"/>
       <arg value="--view"/>
       <classpath refid="classpath.run"/>
     </java>
@@ -125,6 +127,8 @@
     <java classname="org.apache.jackrabbit.examples.FileSystemUtil">
       <arg value="--repodir"/>
       <arg value="${repository.dir}"/>
+      <arg value="--workspace"/>
+      <arg value="${workspace}"/>
       <arg value="--add"/>
       <arg value="hugo"/>
       <!--<arg value="hugo/levi"/>-->
@@ -136,6 +140,8 @@
     <java classname="org.apache.jackrabbit.examples.FileSystemUtil">
       <arg value="--repodir"/>
       <arg value="${repository.dir}"/>
+      <arg value="--workspace"/>
+      <arg value="${workspace}"/>
       <arg value="--import"/>
       <arg value="${file}"/>
       <!--<arg value="/foo/bar"/>-->

@@ -23,11 +23,12 @@ public class FileSystemUtil {
      */
     public static void main(String[] args) {
         if (args.length == 0) {
-            System.out.println("Usage: [--add NODENAME] [--view] [--import DIRECTORY/FILE] --repodir REPO_DIR (e.g. --add hugo --repodir build/repotest)");
+            System.out.println("Usage: [--add NODENAME] [--view] [--import DIRECTORY/FILE] --repodir REPO_DIR (e.g. --add hugo --repodir build/repotest) --workspace WORKSPACE");
             return;
         }
 
         String repHomeDir = null;
+        String workspace = null;
         String action = null;
 
         // --add
@@ -55,6 +56,13 @@ public class FileSystemUtil {
                 action = "import";
                 file = args[i + 1];
             }
+	    if (args[i].equals("--workspace")) {
+                workspace = args[i+1];
+            }	
+        }
+
+        if (workspace == null) {
+            workspace = "default";
         }
 
         if (repHomeDir == null) {
@@ -65,11 +73,11 @@ public class FileSystemUtil {
             System.err.println("No valid action specified (e.g. --add or --view)!");
             return;
         } else if (action.equals("add")) {
-            new FileSystemUtil().addNode(repHomeDir, nodeName);
+            new FileSystemUtil().addNode(repHomeDir, workspace, nodeName);
         } else if (action.equals("view")) {
-            new FileSystemUtil().view(repHomeDir, outputFormat);
+            new FileSystemUtil().view(repHomeDir, workspace, outputFormat);
         } else if (action.equals("import")) {
-            new FileSystemUtil().importFromFilesystem(repHomeDir, file);
+            new FileSystemUtil().importFromFilesystem(repHomeDir, workspace, file);
         } else {
             System.err.println("No such action implemented (e.g. --add)!");
         }
@@ -79,10 +87,10 @@ public class FileSystemUtil {
     /**
      *
      */
-    public void addNode(String repHomeDir, String nodeName) {
+    public void addNode(String repHomeDir, String workspace, String nodeName) {
         try {
             Repository r = getRepository(repHomeDir);
-            Session session = r.login(new SimpleCredentials("anonymous", "".toCharArray()), null);
+            Session session = r.login(new SimpleCredentials("anonymous", "".toCharArray()), workspace);
             Node rootNode = session.getRootNode();
 
             addNode(rootNode, nodeName, null);
@@ -134,11 +142,11 @@ public class FileSystemUtil {
     /**
      *
      */
-    public void view(String repHomeDir, String outputFormat) {
-        System.out.println("View repository: " + repHomeDir);
+    public void view(String repHomeDir, String workspace, String outputFormat) {
+        System.out.println("View repository: " + repHomeDir + ", workspace: " + workspace);
         try {
             Repository r = getRepository(repHomeDir);
-            Session session = r.login(new SimpleCredentials("anonymous", "".toCharArray()), null);
+            Session session = r.login(new SimpleCredentials("anonymous", "".toCharArray()), workspace);
             Node rootNode = session.getRootNode();
 								          
             dump(rootNode);
@@ -180,10 +188,10 @@ public class FileSystemUtil {
     /**
      *
      */
-    public void importFromFilesystem(String repHomeDir, String filename) {
+    public void importFromFilesystem(String repHomeDir, String workspace, String filename) {
         try {
             Repository r = getRepository(repHomeDir);
-            Session session = r.login(new SimpleCredentials("anonymous", "".toCharArray()), null);
+            Session session = r.login(new SimpleCredentials("anonymous", "".toCharArray()), workspace);
             Node rootNode = session.getRootNode();
 								          
             System.out.println(rootNode.getPrimaryNodeType().getName());
