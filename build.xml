@@ -20,7 +20,8 @@
     <property name="host" value="http://www.ibiblio.org/maven"/>
 
     <path id="classpath.compile">
-      <pathelement path="lib/jackrabbit-0.16.2-dev.jar"/>
+      <!--<pathelement path="lib/jackrabbit-0.16.2-dev.jar"/>-->
+      <pathelement path="lib/jackrabbit-0.16.2-dev-LCR158328.jar"/>
       <pathelement path="lib/jcr-0.16.2.jar"/>
     </path>
 
@@ -36,39 +37,6 @@
     <property name="file" value="src/java"/>
 
   </target>
-
-<!--
-  <target name="download-libraries" depends="init" description="Download Libraries">
-
-    <mkdir dir="build/tools/ant"/>
-    <javac srcdir="src/tools/ant/"
-           destdir="build/tools/ant"
-    />
-    <taskdef name="getDependency" classpath="build/tools/ant" classname="org.apache.tools.ant.taskdefs.MyGet"/>
-
-    <mkdir dir="lib/runtime"/>
-
-    <getDependency src="${host}/concurrent/jars/concurrent-1.3.4.jar" dest="lib/runtime/concurrent-1.3.4.jar" usetimestamp="true" verbose="true" offline="${offline}"/>
-
-    <getDependency src="${host}/commons-collections/jars/commons-collections-2.1.1.jar" dest="lib/runtime/commons-collections-2.1.1.jar" usetimestamp="true" verbose="true" offline="${offline}"/>
-
-    <getDependency src="${host}/commons-logging/jars/commons-logging-1.0.4.jar" dest="lib/runtime/commons-logging-1.0.4.jar" usetimestamp="true" verbose="true" offline="${offline}"/>
-
-    <getDependency src="${host}/log4j/jars/log4j-1.2.8.jar" dest="lib/runtime/log4j-1.2.8.jar" usetimestamp="true" verbose="true" offline="${offline}"/>
-
-    <getDependency src="${host}/xerces/jars/xercesImpl-2.6.2.jar" dest="lib/runtime/xercesImpl-2.6.2.jar" usetimestamp="true" verbose="true" offline="${offline}"/>
-
-    <getDependency src="${host}/lucene/jars/lucene-1.4.1.jar" dest="lib/runtime/lucene-1.4.1.jar" usetimestamp="true" verbose="true" offline="${offline}"/>
-
-    <getDependency src="${host}/jdom/jars/jdom-1.0.jar" dest="lib/runtime/jdom-1.0.jar" usetimestamp="true" verbose="true" offline="${offline}"/>
-
-    <getDependency src="http://www.day.com/maven/jsr170/jars/jcr-0.16.2.jar" dest="lib/jcr-0.16.2.jar" usetimestamp="true" verbose="true" offline="${offline}"/>
-
-    <getDependency src="http://www.day.com/maven/cqfs/jars/cqfs-3.5.6.jar" dest="lib/runtime/cqfs-3.5.6.jar" usetimestamp="true" verbose="true" offline="${offline}"/>
-
-    <getDependency src="http://www.day.com/maven/cqfs/jars/cqfs-jackrabbit-3.5.6.jar" dest="lib/runtime/cqfs-jackrabbit-3.5.6.jar" usetimestamp="true" verbose="true" offline="${offline}"/>
-  </target>
--->
 
   <target name="compile" depends="init" description="Compile Java Classes">
     <echo>Compile Java classes</echo>
@@ -114,6 +82,7 @@
 
   <target name="run-view" depends="init,check-libraries" description="View repo">
     <java classname="org.apache.jackrabbit.examples.FileSystemUtil">
+      <arg value="-Djava.security.auth.login.config==jaas.config"/>
       <arg value="--repodir"/>
       <arg value="${repository.dir}"/>
       <arg value="--workspace"/>
