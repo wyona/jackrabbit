@@ -90,7 +90,9 @@ public class FileSystemUtil {
     public void addNode(String repHomeDir, String workspace, String nodeName) {
         try {
             Repository r = getRepository(repHomeDir);
-            Session session = r.login(new SimpleCredentials("anonymous", "".toCharArray()), workspace);
+            String userId = "anonymous";
+            char[] password = "".toCharArray();
+            Session session = r.login(new SimpleCredentials(userId, password), workspace);
             Node rootNode = session.getRootNode();
 
             addNode(rootNode, nodeName, null);
@@ -146,7 +148,9 @@ public class FileSystemUtil {
         System.out.println("View repository: " + repHomeDir + ", workspace: " + workspace);
         try {
             Repository r = getRepository(repHomeDir);
-            Session session = r.login(new SimpleCredentials("anonymous", "".toCharArray()), workspace);
+            String userId = "anonymous";
+            char[] password = "".toCharArray();
+            Session session = r.login(new SimpleCredentials(userId, password), workspace);
 
             String[] prefixes = session.getNamespacePrefixes();
             for (int i = 0; i < prefixes.length; i++) {
@@ -199,7 +203,9 @@ public class FileSystemUtil {
     public void importFromFilesystem(String repHomeDir, String workspace, String filename) {
         try {
             Repository r = getRepository(repHomeDir);
-            Session session = r.login(new SimpleCredentials("anonymous", "".toCharArray()), workspace);
+            String userId = "anonymous";
+            char[] password = "".toCharArray();
+            Session session = r.login(new SimpleCredentials(userId, password), workspace);
             Node rootNode = session.getRootNode();
 								          
             System.out.println(rootNode.getPrimaryNodeType().getName());
