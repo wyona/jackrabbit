@@ -2,6 +2,8 @@
 
 <project name="jackrabbit-test" default="usage">
 
+  <import file="src/targets/download-libraries.xml"/>
+
   <target name="usage" description="How to see all the targets">
     <echo>USAGE: ant -projecthelp</echo>
   </target>
@@ -35,6 +37,7 @@
 
   </target>
 
+<!--
   <target name="download-libraries" depends="init" description="Download Libraries">
 
     <mkdir dir="build/tools/ant"/>
@@ -45,7 +48,6 @@
 
     <mkdir dir="lib/runtime"/>
 
-    <!-- Concurrent: http://gee.cs.oswego.edu/dl/classes/EDU/oswego/cs/dl/util/concurrent/intro.html -->
     <getDependency src="${host}/concurrent/jars/concurrent-1.3.4.jar" dest="lib/runtime/concurrent-1.3.4.jar" usetimestamp="true" verbose="true" offline="${offline}"/>
 
     <getDependency src="${host}/commons-collections/jars/commons-collections-2.1.1.jar" dest="lib/runtime/commons-collections-2.1.1.jar" usetimestamp="true" verbose="true" offline="${offline}"/>
@@ -66,6 +68,7 @@
 
     <getDependency src="http://www.day.com/maven/cqfs/jars/cqfs-jackrabbit-3.5.6.jar" dest="lib/runtime/cqfs-jackrabbit-3.5.6.jar" usetimestamp="true" verbose="true" offline="${offline}"/>
   </target>
+-->
 
   <target name="compile" depends="init" description="Compile Java Classes">
     <echo>Compile Java classes</echo>
