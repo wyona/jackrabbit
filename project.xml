@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<!-- WARNING: This is work in progress and NOT intended for actual usage yet -->
+<project>
+<description>
+</description>
+
+<!--
+  Download jars from http://www.ibiblio.org/maven/
+  and save the jars within ~/.maven/repository/
+-->
+<dependencies>
+  <dependency>
+    <id>concurrent</id>
+    <version>1.3.4</version>
+  </dependency>
+</dependencies>
+</project>
