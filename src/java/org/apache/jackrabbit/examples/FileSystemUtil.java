@@ -147,6 +147,14 @@ public class FileSystemUtil {
         try {
             Repository r = getRepository(repHomeDir);
             Session session = r.login(new SimpleCredentials("anonymous", "".toCharArray()), workspace);
+
+            String[] prefixes = session.getNamespacePrefixes();
+            for (int i = 0; i < prefixes.length; i++) {
+                String namespace = session.getNamespaceURI(prefixes[i]);
+                System.out.println("Namespace Prefix: " + prefixes[i]);
+                System.out.println("Namespace: " + namespace);
+            }
+
             Node rootNode = session.getRootNode();
 								          
             dump(rootNode);
