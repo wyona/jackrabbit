@@ -36,6 +36,10 @@
       <pathelement path="build/classes"/>
       <pathelement path="lib"/> <!-- log4j.properties -->
     </path>
+    <property name="echo.classpath.run" refid="classpath.run"/>
+<!--
+    <echo>Classpath: ${echo.classpath.run}</echo>
+-->
 
     <property name="file" value="src/java"/>
 
@@ -85,11 +89,6 @@
   </target>
 
   <target name="run-view" depends="init,check-libraries" description="View repo">
-    <property name="echo.classpath.run" refid="classpath.run"/>
-<!--
-    <echo>Classpath: ${echo.classpath.run}</echo>
--->
-
     <exec executable="java">
       <arg value="-cp"/>
       <arg value="${echo.classpath.run}"/>
@@ -102,6 +101,7 @@
       <arg value="--view"/>
     </exec>
 
+<!-- NOTE: Throws ClassNotFoundException: com.sun.security.auth.login.ConfigFile -->
 <!--
     <java classname="org.apache.jackrabbit.examples.FileSystemUtil">
       <jvmarg value="-Djava.security.auth.login.config==${repository.dir}/jaas.config"/>
@@ -116,29 +116,60 @@
   </target>
 
   <target name="run-add" depends="init,check-libraries" description="Add a node to repo">
-    <java classname="org.apache.jackrabbit.examples.FileSystemUtil">
+    <exec executable="java">
+      <arg value="-cp"/>
+      <arg value="${echo.classpath.run}"/>
+      <arg value="-Djava.security.auth.login.config==${repository.dir}/jaas.config"/>
+      <arg value="org.apache.jackrabbit.examples.FileSystemUtil"/>
       <arg value="--repodir"/>
       <arg value="${repository.dir}"/>
       <arg value="--workspace"/>
       <arg value="${workspace}"/>
       <arg value="--add"/>
       <arg value="hugo"/>
-      <!--<arg value="hugo/levi"/>-->
+    </exec>
+
+<!-- NOTE: Throws ClassNotFoundException: com.sun.security.auth.login.ConfigFile -->
+<!--
+    <java classname="org.apache.jackrabbit.examples.FileSystemUtil">
+      <arg value="+-repodir"/>
+      <arg value="${repository.dir}"/>
+      <arg value="+-workspace"/>
+      <arg value="${workspace}"/>
+      <arg value="+-add"/>
+      <arg value="hugo"/>
       <classpath refid="classpath.run"/>
     </java>
+-->
   </target>
 
   <target name="run-import" depends="init,check-libraries" description="Import dir/file from filesystem into repo">
-    <java classname="org.apache.jackrabbit.examples.FileSystemUtil">
+    <exec executable="java">
+      <arg value="-cp"/>
+      <arg value="${echo.classpath.run}"/>
+      <arg value="-Djava.security.auth.login.config==${repository.dir}/jaas.config"/>
+      <arg value="org.apache.jackrabbit.examples.FileSystemUtil"/>
       <arg value="--repodir"/>
       <arg value="${repository.dir}"/>
       <arg value="--workspace"/>
       <arg value="${workspace}"/>
       <arg value="--import"/>
       <arg value="${file}"/>
-      <!--<arg value="/foo/bar"/>-->
+      <arg value="hugo"/>
+    </exec>
+
+<!-- NOTE: Throws ClassNotFoundException: com.sun.security.auth.login.ConfigFile -->
+<!--
+    <java classname="org.apache.jackrabbit.examples.FileSystemUtil">
+      <arg value="+-repodir"/>
+      <arg value="${repository.dir}"/>
+      <arg value="+-workspace"/>
+      <arg value="${workspace}"/>
+      <arg value="+-import"/>
+      <arg value="${file}"/>
       <classpath refid="classpath.run"/>
     </java>
+-->
   </target>
 
   <target name="run-first-steps" depends="init,check-libraries" description="Run First Steps Example">
