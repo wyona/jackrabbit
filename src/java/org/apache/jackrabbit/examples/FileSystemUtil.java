@@ -208,6 +208,7 @@ public class FileSystemUtil {
         InputStream in =  null;
         if (file.isFile()) in = new FileInputStream(file);
         addNode(rootNode, nodePath, in);
+	if (in != null) in.close();
 
         if (file.isDirectory()) {
             //System.out.println("Directory: " + file);
