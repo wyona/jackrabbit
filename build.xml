@@ -172,6 +172,21 @@
 -->
   </target>
 
+  <target name="run-import-xml-file" depends="init,check-libraries" description="Import XML file">
+    <exec executable="java">
+      <arg value="-cp"/>
+      <arg value="${echo.classpath.run}"/>
+      <arg value="-Djava.security.auth.login.config==${repository.dir}/jaas.config"/>
+      <arg value="org.apache.jackrabbit.examples.FileSystemUtil"/>
+      <arg value="--repodir"/>
+      <arg value="${repository.dir}"/>
+      <arg value="--workspace"/>
+      <arg value="${workspace}"/>
+      <arg value="--import-xml-file"/>
+      <arg value="${file}"/>
+    </exec>
+  </target>
+
   <target name="run-first-steps" depends="init,check-libraries" description="Run First Steps Example">
     <java classname="org.apache.jackrabbit.examples.FirstSteps">
       <arg value="${repository.dir}"/>

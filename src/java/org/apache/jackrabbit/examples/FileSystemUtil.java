@@ -40,6 +40,9 @@ public class FileSystemUtil {
         // --import
         String file = null;
 
+        // --import-xml-file
+        String xmlFile = null;
+
         for (int i = 0; i < args.length; i++) {
             if (args[i].equals("--repodir")) {
                 repHomeDir = args[i + 1];
@@ -55,6 +58,10 @@ public class FileSystemUtil {
             if (args[i].equals("--import")) {
                 action = "import";
                 file = args[i + 1];
+            }
+            if (args[i].equals("--import-xml-file")) {
+                action = "importxmlfile";
+                xmlFile = args[i + 1];
             }
 	    if (args[i].equals("--workspace")) {
                 workspace = args[i+1];
@@ -78,6 +85,8 @@ public class FileSystemUtil {
             new FileSystemUtil().view(repHomeDir, workspace, outputFormat);
         } else if (action.equals("import")) {
             new FileSystemUtil().importFromFilesystem(repHomeDir, workspace, file);
+        } else if (action.equals("importxmlfile")) {
+            new FileSystemUtil().importXMLFile(repHomeDir, workspace, xmlFile);
         } else {
             System.err.println("No such action implemented (e.g. --add)!");
         }
@@ -198,7 +207,7 @@ public class FileSystemUtil {
     }
 
     /**
-     *
+     * Import data from filesystem
      */
     public void importFromFilesystem(String repHomeDir, String workspace, String filename) {
         try {
@@ -250,6 +259,30 @@ public class FileSystemUtil {
             System.out.println("File: " + nodePath);
         } else {
             System.err.println("Neither file nor directory: " + file);
+        }
+    }
+
+    /**
+     * Import XML file
+     */
+    public void importXMLFile(String repHomeDir, String workspace, String filename) {
+        try {
+            Repository r = getRepository(repHomeDir);
+            String userId = "anonymous";
+            char[] password = "".toCharArray();
+            Session session = r.login(new SimpleCredentials(userId, password), workspace);
+            Node rootNode = session.getRootNode();
+								          
+            System.out.println(rootNode.getPrimaryNodeType().getName());
+
+            String nodeName = "importxmlfile";
+            Node node = rootNode.addNode(nodeName, "nt:unstructured");
+            session.importXML("/" + nodeName, new FileInputStream(filename));
+	    
+            session.save();
+        } catch (Exception e){
+            e.printStackTrace(System.err);
+            //System.err.println("EXCEPTION: " + e.getStackTrace());
         }
     }
 
