@@ -27,6 +27,8 @@
 
     <getDependency src="${host}/jdom/jars/jdom-1.0.jar" dest="lib/runtime/jdom-1.0.jar" usetimestamp="true" verbose="true" offline="${offline}"/>
 
+    <getDependency src="${host}/xml-apis/jars/xmlParserAPIs-2.0.2.jar" dest="lib/runtime/xmlParserAPIs-2.0.2.jar" usetimestamp="true" verbose="true" offline="${offline}"/>
+
     <getDependency src="http://www.day.com/maven/jsr170/jars/jcr-0.16.2.jar" dest="lib/jcr-0.16.2.jar" usetimestamp="true" verbose="true" offline="${offline}"/>
 
     <getDependency src="http://www.day.com/maven/cqfs/jars/cqfs-3.5.6.jar" dest="lib/runtime/cqfs-3.5.6.jar" usetimestamp="true" verbose="true" offline="${offline}"/>
