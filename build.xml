@@ -94,6 +94,12 @@
     <copy file="src/config/test/repository.xml" todir="${repository.dir}"/>
   </target>
 
+  <target name="reset-repository" depends="init, compile" description="Reset Repository">
+    <delete dir="${repository.dir}"/>
+    <mkdir dir="${repository.dir}"/>
+    <copy file="src/config/test/repository.xml" todir="${repository.dir}"/>
+  </target>
+
   <target name="clean-build" depends="init" description="Clean Build">
     <delete dir="build"/>
   </target>
