@@ -3,6 +3,7 @@ package org.apache.jackrabbit.examples;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.Calendar;
 import java.util.Hashtable;
 
 import javax.jcr.*;
@@ -96,29 +97,37 @@ public class FileSystemUtil {
     /**
      *
      */
-    public void addNode(Node rootNode, String nodeName, InputStream in) throws Exception {
+    public void addNode(Node rootNode, String nodeName, File file) throws Exception {
         System.out.println(rootNode.getPrimaryNodeType().getName());
 
-        String propertyName = "name";
 
         if (!rootNode.hasNode(nodeName)) {
             System.out.println("Attempting to create node: " + nodeName);
-            Node n = rootNode.addNode(nodeName, "nt:unstructured");
 
-            String propertyValue = nodeName;
-            int lastIndex = nodeName.lastIndexOf("/");
-            if (lastIndex > -1) {
-                propertyValue = nodeName.substring(lastIndex + 1);
+            Node n = null;
+	    if (file != null && file.isFile()) {
+	        n = rootNode.addNode(nodeName, "nt:file");
+                Node resNode = n.addNode("jcr:content", "nt:resource");
+                resNode.setProperty("jcr:data", new FileInputStream(file));
+                resNode.setProperty("jcr:encoding", "");
+                resNode.setProperty("jcr:mimeType", "");
+                Calendar lastModified = Calendar.getInstance();
+                lastModified.setTimeInMillis(file.lastModified());
+                resNode.setProperty("jcr:lastModified", lastModified);
+            } else {
+                n = rootNode.addNode(nodeName, "nt:unstructured");
+                String propertyValue = nodeName;
+                int lastIndex = nodeName.lastIndexOf("/");
+                if (lastIndex > -1) {
+                    propertyValue = nodeName.substring(lastIndex + 1);
+                }
+                String propertyName = "name";
+                n.setProperty(propertyName, new StringValue(propertyValue));
+                //System.out.println("Property value: " + rootNode.getProperty(nodeName + "/" + propertyName).getString());
             }
-            n.setProperty(propertyName, new StringValue(propertyValue));
-            //System.out.println("Property value: " + rootNode.getProperty(nodeName + "/" + propertyName).getString());
 
-            if (in != null) {
-                n.setProperty("data", new StringValue("data"));
-            }
         } else {
             System.out.println("Node does already exist: " + nodeName);
-            // Show all properties of this node ...
         }
     }
 
@@ -205,10 +214,7 @@ public class FileSystemUtil {
         }
 
         String nodePath = file.getAbsolutePath().substring(offset.length() + 1);
-        InputStream in =  null;
-        if (file.isFile()) in = new FileInputStream(file);
-        addNode(rootNode, nodePath, in);
-	if (in != null) in.close();
+        addNode(rootNode, nodePath, file);
 
         if (file.isDirectory()) {
             //System.out.println("Directory: " + file);
