@@ -1,6 +1,8 @@
 package org.apache.jackrabbit.examples;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Hashtable;
 
 import javax.jcr.*;
@@ -82,7 +84,7 @@ public class FileSystemUtil {
             Session session = r.login(new SimpleCredentials("anonymous", "".toCharArray()), null);
             Node rootNode = session.getRootNode();
 
-            addNode(rootNode, nodeName);
+            addNode(rootNode, nodeName, null);
 
             session.save();
         } catch (Exception e){
@@ -94,13 +96,13 @@ public class FileSystemUtil {
     /**
      *
      */
-    public void addNode(Node rootNode, String nodeName) throws Exception {
+    public void addNode(Node rootNode, String nodeName, InputStream in) throws Exception {
         System.out.println(rootNode.getPrimaryNodeType().getName());
 
         String propertyName = "name";
 
         if (!rootNode.hasNode(nodeName)) {
-            System.out.println("Creating node: " + nodeName);
+            System.out.println("Attempting to create node: " + nodeName);
             Node n = rootNode.addNode(nodeName, "nt:unstructured");
 
             String propertyValue = nodeName;
@@ -109,7 +111,11 @@ public class FileSystemUtil {
                 propertyValue = nodeName.substring(lastIndex + 1);
             }
             n.setProperty(propertyName, new StringValue(propertyValue));
-            System.out.println("Property value: " + rootNode.getProperty(nodeName + "/" + propertyName).getString());
+            //System.out.println("Property value: " + rootNode.getProperty(nodeName + "/" + propertyName).getString());
+
+            if (in != null) {
+                n.setProperty("data", new StringValue("data"));
+            }
         } else {
             System.out.println("Node does already exist: " + nodeName);
             // Show all properties of this node ...
@@ -199,7 +205,9 @@ public class FileSystemUtil {
         }
 
         String nodePath = file.getAbsolutePath().substring(offset.length() + 1);
-        addNode(rootNode, nodePath);
+        InputStream in =  null;
+        if (file.isFile()) in = new FileInputStream(file);
+        addNode(rootNode, nodePath, in);
 
         if (file.isDirectory()) {
             //System.out.println("Directory: " + file);
