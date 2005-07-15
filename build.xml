@@ -19,10 +19,13 @@
     <!-- http://incubator.apache.org/jackrabbit/dependencies.html -->
     <property name="host" value="http://www.ibiblio.org/maven"/>
 
+    <property name="maven.repo.local" value="${user.home}/.maven/repository"/>
+
     <path id="classpath.compile">
-      <!--<pathelement path="lib/jackrabbit-0.16.2-dev.jar"/>-->
-      <pathelement path="lib/jackrabbit-0.16.2-dev-LCR158328.jar"/>
-      <pathelement path="lib/jcr-0.16.2.jar"/>
+      <pathelement path="${maven.repo.local}/jsr170/jars/jcr-1.0.jar"/>
+      <pathelement path="${maven.repo.local}/jackrabbit/jars/jackrabbit-api-1.0-dev-LCR209797.jar"/>
+      <pathelement path="${maven.repo.local}/jackrabbit/jars/jackrabbit-commons-1.0-dev-LCR209797.jar"/>
+      <pathelement path="${maven.repo.local}/jackrabbit/jars/jackrabbit-core-1.0-dev-LCR209797.jar"/>
     </path>
 
     <!--<echo>Java Classpath: ${java.class.path}</echo>-->
@@ -77,6 +80,7 @@
     <delete dir="${repository.dir}"/>
     <mkdir dir="${repository.dir}"/>
     <copy file="src/config/test/repository.xml" todir="${repository.dir}"/>
+    <copy file="src/config/test/jaas.config" todir="${repository.dir}"/>
   </target>
 
   <target name="clean-build" depends="init" description="Clean Build">

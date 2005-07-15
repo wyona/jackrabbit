@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Hashtable;
 
 import javax.jcr.*;
+import javax.jcr.ImportUUIDBehavior;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -141,7 +142,8 @@ public class FileSystemUtil {
                     propertyValue = nodeName.substring(lastIndex + 1);
                 }
                 String propertyName = "name";
-                n.setProperty(propertyName, new StringValue(propertyValue));
+                n.setProperty(propertyName, propertyValue);
+                //n.setProperty(propertyName, new StringValue(propertyValue));
                 //System.out.println("Property value: " + rootNode.getProperty(nodeName + "/" + propertyName).getString());
             }
 
@@ -277,7 +279,7 @@ public class FileSystemUtil {
 
             String nodeName = "importxmlfile";
             Node node = rootNode.addNode(nodeName, "nt:unstructured");
-            session.importXML("/" + nodeName, new FileInputStream(filename));
+            session.importXML("/" + nodeName, new FileInputStream(filename), ImportUUIDBehavior.IMPORT_UUID_CREATE_NEW);
 	    
             session.save();
         } catch (Exception e){
