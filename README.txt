@@ -11,6 +11,7 @@
 
     JDK-1.2
     Apache-Ant-1.6.2
+    Apache-Maven-1.0.2
     NOTE: Only tested on Linux yet
 
 
