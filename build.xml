@@ -21,8 +21,10 @@
 
     <property name="maven.repo.local" value="${user.home}/.maven/repository"/>
 
+    <property name="jcr.version" value="1.0"/>
+
     <path id="classpath.compile">
-      <pathelement path="${maven.repo.local}/jsr170/jars/jcr-1.0.jar"/>
+      <pathelement path="${maven.repo.local}/jsr170/jars/jcr-${jcr.version}.jar"/>
       <pathelement path="${maven.repo.local}/jackrabbit/jars/jackrabbit-api-1.0-dev-LCR209797.jar"/>
       <pathelement path="${maven.repo.local}/jackrabbit/jars/jackrabbit-commons-1.0-dev-LCR209797.jar"/>
       <pathelement path="${maven.repo.local}/jackrabbit/jars/jackrabbit-core-1.0-dev-LCR209797.jar"/>
@@ -52,9 +54,9 @@
     <echo>Compile Java classes</echo>
 
     <condition property="jcr.jar.exists">
-      <available file="lib/jcr-0.16.2.jar"/>
+      <available file="${maven.repo.local}/jsr170/jars/jcr-${jcr.version}.jar"/>
     </condition>
-    <fail unless="jcr.jar.exists" message="WARNING: Download JCR jar by executing ant download-libraries!"/>
+    <fail unless="jcr.jar.exists" message="WARNING: Jar jcr-${jcr.version}.jar does not exist. Download jcr-${jcr.version}.jar by executing maven!"/>
 
     <mkdir dir="build/classes"/>
     <javac srcdir="src/java" destdir="build/classes"
