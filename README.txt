@@ -24,3 +24,4 @@
     Show repository:             ant run-view
     Import file/directory:       ant run-import -Dfile=/foo/bar
     Show repository:             ant run-view
+    Clean build:                 ant clean-build
