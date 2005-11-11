@@ -9,7 +9,7 @@
   Requirements
   ============
 
-    JDK-1.4.2 (e.g. export PATH=/usr/local/j2sdk1.4.2_10/bin:$PATH)
+    JDK-1.4.2 (e.g. export JAVA_HOME=/usr/local/j2sdk1.4.2_10, export PATH=/usr/local/j2sdk1.4.2_10/bin:$PATH)
     Apache-Ant-1.6.5 (e.g. export PATH=/usr/local/apache-ant-1.6.5/bin:$PATH)
     Apache-Maven-1.0.2 (e.g. export PATH=/usr/local/maven-1.0.2/bin:$PATH)
 
